@@ -1,6 +1,6 @@
-﻿internal enum TokenType
+﻿public enum TokenType
 {
-    // Single-character tokens.
+    // Single-character _tokens.
     LEFT_PAREN, 
     RIGHT_PAREN, 
     LEFT_BRACE, 
@@ -13,7 +13,7 @@
     SLASH, 
     STAR,
 
-    // One or two character tokens.
+    // One or two character _tokens.
     BANG, 
     BANG_EQUAL,
     EQUAL, 

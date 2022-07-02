@@ -8,4 +8,10 @@
     <AssemblyName>cslox</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="Scripts\SimpleLexemes.lox">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

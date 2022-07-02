@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {},
+      "distributionName": ""
+    },
+    "CSLox SimpleLexemes": {
+      "commandName": "Project",
+      "commandLineArgs": ".\\Scripts\\SimpleLexemes.lox"
+    }
+  }
+}
