@@ -68,6 +68,9 @@
                     AddToken(TokenType.SLASH);
                 }
                 break;
+            case '"':
+                ScanString();
+                break;
             default:
                 CSLox.Error(_line, $"Unexpected character {c}");
                 break;
@@ -88,6 +91,27 @@
     }
 
     char Peek() => IsAtEnd ? '\0' : _source[_current];
+
+    void ScanString()
+    {
+        while (Peek() != '"' && !IsAtEnd)
+        {
+            if (Peek() == '\n') _line++;
+            Advance();
+        }
+
+        if (IsAtEnd)
+        {
+            CSLox.Error(_line, "Untermimated string");
+            return;
+        }
+
+        // Consume the final "
+        Advance();
+
+        string value = _source.Substring(_start + 1, _current - _start - 2);
+        AddToken(TokenType.STRING, value);
+    }
 
     void AddToken(TokenType type) =>
         AddToken(type, null);
