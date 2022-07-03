@@ -8,6 +8,26 @@ public sealed class Scanner
     int _current = 0;
     int _line = 1;
 
+    private static readonly Dictionary<string, TokenType> _keywords = new Dictionary<string, TokenType>
+    {
+        { "and",    TokenType.AND },
+        { "class",  TokenType.CLASS },
+        { "else",   TokenType.ELSE },
+        { "false",  TokenType.FALSE },
+        { "for",    TokenType.FOR },
+        { "fun",    TokenType.FUN },
+        { "if",     TokenType.IF },
+        { "nil",    TokenType.NIL },
+        { "or",     TokenType.OR },
+        { "print",  TokenType.PRINT },
+        { "return", TokenType.RETURN },
+        { "super",  TokenType.SUPER },
+        { "this",   TokenType.THIS },
+        { "true",   TokenType.TRUE },
+        { "var",    TokenType.VAR },
+        { "while",  TokenType.WHILE },
+    };
+
     public Scanner(string source)
     {
         _source = source;
@@ -74,9 +94,13 @@ public sealed class Scanner
                 ScanString();
                 break;
             default:
-                if (Char.IsDigit(c))
+                if (IsDigit(c))
                 {
                     ScanNumber();
+                }
+                else if (IsAlphaNumeric(c))
+                {
+                    ScanIdentifier();
                 }
                 else
                 {
@@ -142,7 +166,31 @@ public sealed class Scanner
         AddToken(TokenType.NUMBER, Double.Parse(_source.Substring(_start, _current - _start)));
     }
 
-    static bool IsDigit(char c) => c >= '0' && c <= '9';
+    void ScanIdentifier()
+    {
+        while (IsAlphaNumeric(Peek()))
+            Advance();
+
+        string value = _source.Substring(_start, _current - _start);
+        if(_keywords.TryGetValue(value, out TokenType tokenType))
+        {
+            AddToken(tokenType);
+            return;
+        }
+
+        AddToken(TokenType.IDENTIFIER);
+    }
+
+    static bool IsDigit(char c) => 
+        c >= '0' && c <= '9';
+
+    static bool IsAlpha(char c) => 
+        (c >= 'a' && c <= 'z') ||
+        (c >= 'A' && c <= 'Z') ||
+         c == '_';
+
+    static bool IsAlphaNumeric(char c) =>
+        IsAlpha(c) || IsDigit(c);
 
     void AddToken(TokenType type) =>
         AddToken(type, null);
