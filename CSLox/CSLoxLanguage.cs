@@ -29,9 +29,7 @@ public static class CSLoxLanguage
         List<Token> tokens = scanner.ScanTokens();
 
         foreach (var token in tokens)
-        {
             Console.WriteLine(token);
-        }
     }
 
     public static void Error(int line, string message)
