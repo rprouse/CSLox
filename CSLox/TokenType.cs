@@ -1,4 +1,6 @@
-﻿public enum TokenType
+﻿namespace CSLox;
+
+public enum TokenType
 {
     // Single-character _tokens.
     LEFT_PAREN, 

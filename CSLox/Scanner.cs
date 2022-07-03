@@ -1,4 +1,6 @@
-﻿public sealed class Scanner
+﻿namespace CSLox;
+
+public sealed class Scanner
 {
     readonly string _source;
     readonly List<Token> _tokens = new List<Token>();
@@ -72,7 +74,7 @@
                 ScanString();
                 break;
             default:
-                CSLox.Error(_line, $"Unexpected character {c}");
+                CSLoxLanguage.Error(_line, $"Unexpected character {c}");
                 break;
         }
     }
@@ -102,7 +104,7 @@
 
         if (IsAtEnd)
         {
-            CSLox.Error(_line, "Untermimated string");
+            CSLoxLanguage.Error(_line, "Untermimated string");
             return;
         }
 

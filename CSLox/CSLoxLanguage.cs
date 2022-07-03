@@ -1,4 +1,6 @@
-﻿public static class CSLox
+﻿namespace CSLox;
+
+public static class CSLoxLanguage
 {
     public static bool HadError { get; set; }
 
