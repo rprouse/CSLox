@@ -64,6 +64,8 @@
             new TestCaseData("true", new [] { new Token(TokenType.TRUE, "true", null, 1), EofToken(1) }),
             new TestCaseData("var", new [] { new Token(TokenType.VAR, "var", null, 1), EofToken(1) }),
             new TestCaseData("while", new [] { new Token(TokenType.WHILE, "while", null, 1), EofToken(1) }),
+            new TestCaseData("print foo", new [] { new Token(TokenType.PRINT, "print", null, 1), new Token(TokenType.IDENTIFIER, "foo", null, 1), EofToken(1) }),
+            new TestCaseData("print \"Hello world\"", new [] { new Token(TokenType.PRINT, "print", null, 1), new Token(TokenType.STRING, "\"Hello world\"", "Hello world", 1), EofToken(1) }),
         };
 
         static Token EofToken(int line) => new Token(TokenType.EOF, "", null, line);
