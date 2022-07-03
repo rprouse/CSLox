@@ -44,12 +44,22 @@
             new TestCaseData(">=", new [] { new Token(TokenType.GREATER_EQUAL, ">=", null, 1), new Token(TokenType.EOF, "", null, 1) }),
             new TestCaseData(">", new [] { new Token(TokenType.GREATER, ">", null, 1), new Token(TokenType.EOF, "", null, 1) }),
             new TestCaseData("\"Hello\"", new [] { new Token(TokenType.STRING, "\"Hello\"", "Hello", 1), new Token(TokenType.EOF, "", null, 1) }),
+            new TestCaseData("49", new [] { new Token(TokenType.NUMBER, "49", 49d, 1), new Token(TokenType.EOF, "", null, 1) }),
+            new TestCaseData("49.75", new [] { new Token(TokenType.NUMBER, "49.75", 49.75, 1), new Token(TokenType.EOF, "", null, 1) }),
         };
 
         [Test]
         public void TestError()
         {
             var scanner = new Scanner("3 ^ 4");
+            var tokens = scanner.ScanTokens();
+            CSLoxLanguage.HadError.Should().BeTrue();
+        }
+
+        [Test]
+        public void TestUnterminatedString()
+        {
+            var scanner = new Scanner("\"Hello");
             var tokens = scanner.ScanTokens();
             CSLoxLanguage.HadError.Should().BeTrue();
         }

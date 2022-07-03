@@ -74,7 +74,14 @@ public sealed class Scanner
                 ScanString();
                 break;
             default:
-                CSLoxLanguage.Error(_line, $"Unexpected character {c}");
+                if (Char.IsDigit(c))
+                {
+                    ScanNumber();
+                }
+                else
+                {
+                    CSLoxLanguage.Error(_line, $"Unexpected character {c}");
+                }
                 break;
         }
     }
@@ -93,6 +100,8 @@ public sealed class Scanner
     }
 
     char Peek() => IsAtEnd ? '\0' : _source[_current];
+
+    char PeekNext() => _current + 1 >= _source.Length ? '\0' : _source[_current + 1];
 
     void ScanString()
     {
@@ -114,6 +123,26 @@ public sealed class Scanner
         string value = _source.Substring(_start + 1, _current - _start - 2);
         AddToken(TokenType.STRING, value);
     }
+
+    void ScanNumber()
+    {
+        // Pull off the whole numbers
+        while (IsDigit(Peek()))
+            Advance();
+
+        // Decimal place?
+        if(Peek() == '.' && Char.IsDigit(PeekNext()))
+        {
+            Advance();
+
+            while (IsDigit(Peek()))
+                Advance();
+        }
+
+        AddToken(TokenType.NUMBER, Double.Parse(_source.Substring(_start, _current - _start)));
+    }
+
+    static bool IsDigit(char c) => c >= '0' && c <= '9';
 
     void AddToken(TokenType type) =>
         AddToken(type, null);
